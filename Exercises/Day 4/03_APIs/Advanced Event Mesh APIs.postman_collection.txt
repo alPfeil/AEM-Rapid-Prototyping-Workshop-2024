@@ -1,0 +1,1295 @@
+{
+	"info": {
+		"_postman_id": "d121342b-184a-491b-a83b-6f86f2066f66",
+		"name": "Blogs - Advanced Event Mesh API share",
+		"description": "This collection shows you how to create a Solace PubSub+ Cloud Event Broker Service and retrive its connection details.\n\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34136814",
+		"_collection_link": "https://sap-se.postman.co/workspace/Technical-%26-Process-Cloud-Integ~11d9b7a1-e31a-444f-b7fb-eae51b25757e/collection/34136814-d121342b-184a-491b-a83b-6f86f2066f66?action=share&source=collection_link&creator=34136814"
+	},
+	"item": [
+		{
+			"name": "SEMP(v2)",
+			"item": [
+				{
+					"name": "Get Configuration - Message VPN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{SEMPv2Password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{SEMPv2User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{apiToken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:943/SEMP/v2/config/msgVpns",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "943",
+							"path": [
+								"SEMP",
+								"v2",
+								"config",
+								"msgVpns"
+							]
+						},
+						"description": "This creates an Event Broker Service.\n\nThe **datacenterId** paramenter in the body specifeies which cloud region that messaging service will be created in.\n\nThe **serviceClassId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise-250-nano*, *enterprise-kilo*, *enterprise-mega*, *enterprise-giga*, *enterprise-tera*, *enterprise-100k-tera*\n\nThe **serviceTypeId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise*"
+					},
+					"response": []
+				},
+				{
+					"name": "Add new Queues",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{SEMPv2Password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{SEMPv2User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{apiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"queueName\": \"{{QueueName}}API\",\r\n    \"accessType\": \"exclusive\",\r\n    \"owner\": \"\",\r\n    \"deadMsgQueue\": \"{{QueueName}}APIDMQ\",\r\n    \"redeliveryEnabled\": true,\r\n    \"maxRedeliveryCount\": 3,\r\n    \"egressEnabled\": true,\r\n    \"ingressEnabled\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:943/SEMP/v2/config/msgVpns/{{msgVPN}}/queues",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "943",
+							"path": [
+								"SEMP",
+								"v2",
+								"config",
+								"msgVpns",
+								"{{msgVPN}}",
+								"queues"
+							]
+						},
+						"description": "This creates an Event Broker Service.\n\nThe **datacenterId** paramenter in the body specifeies which cloud region that messaging service will be created in.\n\nThe **serviceClassId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise-250-nano*, *enterprise-kilo*, *enterprise-mega*, *enterprise-giga*, *enterprise-tera*, *enterprise-100k-tera*\n\nThe **serviceTypeId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise*"
+					},
+					"response": []
+				},
+				{
+					"name": "Add new Subscription",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{SEMPv2Password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{SEMPv2User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{apiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"msgVpnName\": \"{{msgVPN}}\",\r\n  \"queueName\": \"{{QueueName}}API\",\r\n  \"subscriptionTopic\": \"{{TopicName}}API\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:943/SEMP/v2/config/msgVpns/{{msgVPN}}/queues/AEMQueueAPI/subscriptions",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "943",
+							"path": [
+								"SEMP",
+								"v2",
+								"config",
+								"msgVpns",
+								"{{msgVPN}}",
+								"queues",
+								"AEMQueueAPI",
+								"subscriptions"
+							]
+						},
+						"description": "This creates an Event Broker Service.\n\nThe **datacenterId** paramenter in the body specifeies which cloud region that messaging service will be created in.\n\nThe **serviceClassId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise-250-nano*, *enterprise-kilo*, *enterprise-mega*, *enterprise-giga*, *enterprise-tera*, *enterprise-100k-tera*\n\nThe **serviceTypeId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise*"
+					},
+					"response": []
+				},
+				{
+					"name": "Specific MSG VPN - Get a list of Queue objects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{SEMPv2Password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{SEMPv2User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{apiToken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:943/SEMP/v2/monitor/msgVpns/{{msgVPN}}/queues",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "943",
+							"path": [
+								"SEMP",
+								"v2",
+								"monitor",
+								"msgVpns",
+								"{{msgVPN}}",
+								"queues"
+							]
+						},
+						"description": "This creates an Event Broker Service.\n\nThe **datacenterId** paramenter in the body specifeies which cloud region that messaging service will be created in.\n\nThe **serviceClassId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise-250-nano*, *enterprise-kilo*, *enterprise-mega*, *enterprise-giga*, *enterprise-tera*, *enterprise-100k-tera*\n\nThe **serviceTypeId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise*"
+					},
+					"response": []
+				},
+				{
+					"name": "Specific MSG VPN - Get a list of Queue Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{SEMPv2Password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{SEMPv2User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{apiToken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:943/SEMP/v2/monitor/msgVpns/{{msgVPN}}/queues/{{QueueName}}/msgs",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "943",
+							"path": [
+								"SEMP",
+								"v2",
+								"monitor",
+								"msgVpns",
+								"{{msgVPN}}",
+								"queues",
+								"{{QueueName}}",
+								"msgs"
+							]
+						},
+						"description": "This creates an Event Broker Service.\n\nThe **datacenterId** paramenter in the body specifeies which cloud region that messaging service will be created in.\n\nThe **serviceClassId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise-250-nano*, *enterprise-kilo*, *enterprise-mega*, *enterprise-giga*, *enterprise-tera*, *enterprise-100k-tera*\n\nThe **serviceTypeId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise*"
+					},
+					"response": []
+				},
+				{
+					"name": "Specific MSG VPN - Get a list of API created Queue Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{SEMPv2Password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{SEMPv2User}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{apiToken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:943/SEMP/v2/monitor/msgVpns/{{msgVPN}}/queues/{{QueueName}}API/msgs",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "943",
+							"path": [
+								"SEMP",
+								"v2",
+								"monitor",
+								"msgVpns",
+								"{{msgVPN}}",
+								"queues",
+								"{{QueueName}}API",
+								"msgs"
+							]
+						},
+						"description": "This creates an Event Broker Service.\n\nThe **datacenterId** paramenter in the body specifeies which cloud region that messaging service will be created in.\n\nThe **serviceClassId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise-250-nano*, *enterprise-kilo*, *enterprise-mega*, *enterprise-giga*, *enterprise-tera*, *enterprise-100k-tera*\n\nThe **serviceTypeId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise*"
+					},
+					"response": []
+				}
+			],
+			"description": "SEMP v2 is a RESTful API that provides a programmable way to configure SAP event brokers. It complements the Solace CLI and Broker Manager.EndFragment  \n  \n  \n  \n\n[https://docs.solace.com/Admin/SEMP/Using-SEMP.htm](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm)"
+		},
+		{
+			"name": "REST API(v2)",
+			"item": [
+				{
+					"name": "Mission Control",
+					"item": [
+						{
+							"name": "Get list of all datacenters",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{MissionControlToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/missionControl/datacenters",
+									"protocol": "https",
+									"host": [
+										"{{region}}",
+										"console",
+										"pubsub",
+										"em",
+										"services",
+										"cloud",
+										"sap"
+									],
+									"path": [
+										"api",
+										"v2",
+										"missionControl",
+										"datacenters"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get a list of datacenters",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/missionControl/datacenters",
+											"protocol": "https",
+											"host": [
+												"{{region}}",
+												"console",
+												"pubsub",
+												"em",
+												"services",
+												"cloud",
+												"sap"
+											],
+											"path": [
+												"api",
+												"v2",
+												"missionControl",
+												"datacenters"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "CloudFront"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 28 Aug 2024 07:42:15 GMT"
+										},
+										{
+											"key": "Vary",
+											"value": "accept-encoding"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubdomains"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache; no-store; must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "X-Cache",
+											"value": "Miss from cloudfront"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 d8006f736d3dc32a20a91813f2f50fa2.cloudfront.net (CloudFront)"
+										},
+										{
+											"key": "X-Amz-Cf-Pop",
+											"value": "FRA60-P7"
+										},
+										{
+											"key": "X-Amz-Cf-Id",
+											"value": "r_wx3L27R3QQpS8gt9PWZjRlpPAYMbhzxiXJobkY_SjIYHH9yj_bww=="
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": \"eks-us-west-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - US West (N. California)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-122\",\n                \"latitude\": \"37\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"us-west-1\"\n        },\n        {\n            \"id\": \"eks-ap-southeast-2a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Asia Pacific (Sydney)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"151\",\n                \"latitude\": \"-34\",\n                \"continent\": \"Australia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"ap-southeast-2\"\n        },\n        {\n            \"id\": \"eks-ap-southeast-3a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Asia Pacific (Jakarta)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"106.8456\",\n                \"latitude\": \"-6.2088\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"ap-southeast-3\"\n        },\n        {\n            \"id\": \"eks-ap-southeast-4\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Asia Pacific (Melbourne)\\t\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"144.9\",\n                \"latitude\": \"-37.8\",\n                \"continent\": \"Australia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            }\n        },\n        {\n            \"id\": \"eks-ca-central-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Canada Central(Montreal)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-74\",\n                \"latitude\": \"46\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"ca-central-1\"\n        },\n        {\n            \"id\": \"eks-eu-central-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - EU (Frankfurt)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"8\",\n                \"latitude\": \"50\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eu-central-1\"\n        },\n        {\n            \"id\": \"eks-eu-north-1\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Europe North (Stockholm)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"18.0686\",\n                \"latitude\": \"59.3293\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eu-north-1\"\n        },\n        {\n            \"id\": \"eks-eu-south-1\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Europe South (Milan)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"9.1\",\n                \"latitude\": \"45.4642\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eu-south-1\"\n        },\n        {\n            \"id\": \"eks-eu-west-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - EU (Ireland)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-8\",\n                \"latitude\": \"53\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eu-west-1\"\n        },\n        {\n            \"id\": \"eks-eu-west-2a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - EU (London)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"0\",\n                \"latitude\": \"51\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eu-west-2\"\n        },\n        {\n            \"id\": \"eks-sa-east-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - South America (Sao Paulo)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-46.64\",\n                \"latitude\": \"-23.56\",\n                \"continent\": \"South America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"sa-east-1\"\n        },\n        {\n            \"id\": \"eks-us-east-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - US East (N. Virginia)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-78\",\n                \"latitude\": \"38\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"us-east-1\"\n        },\n        {\n            \"id\": \"eks-us-east-2a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - US East (Ohio)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-82\",\n                \"latitude\": \"40\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            }\n        },\n        {\n            \"id\": \"eks-ap-southeast-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Asia Pacific (Singapore)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"104\",\n                \"latitude\": \"1\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"ap-southeast-1\"\n        },\n        {\n            \"id\": \"eks-us-west-2a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - US West (Oregon)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-120\",\n                \"latitude\": \"44\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            }\n        },\n        {\n            \"id\": \"gke-gcp-asia-northeast1-a\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - Asia NE (Tokyo)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"140\",\n                \"latitude\": \"36\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"asia-northeast1\"\n        },\n        {\n            \"id\": \"gke-gcp-asia-southeast1-a\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - Asia SE (Singapore)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"104\",\n                \"latitude\": \"1\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"asia-southeast1\"\n        },\n        {\n            \"id\": \"gke-gcp-australia-southeast1-a\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - Southeast(Sydney)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"151\",\n                \"latitude\": \"-34\",\n                \"continent\": \"Australia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"australia-southeast1\"\n        },\n        {\n            \"id\": \"gke-gcp-europe-west1-b\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - EU West(Belgium)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"4\",\n                \"latitude\": \"51\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"europe-west1\"\n        },\n        {\n            \"id\": \"gke-gcp-europe-west2-a\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - EU(London)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"0\",\n                \"latitude\": \"51\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"europe-west2\"\n        },\n        {\n            \"id\": \"gke-gcp-europe-west3-a\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - EU(Frankfurt)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"8\",\n                \"latitude\": \"50\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"europe-west3\"\n        },\n        {\n            \"id\": \"gke-gcp-europe-west4\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - EU(Netherlands)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"5.2913\",\n                \"latitude\": \"52.1326\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"europe-west4\"\n        },\n        {\n            \"id\": \"gke-gcp-europe-west6\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - EU West(Zurich)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"8.5417\",\n                \"latitude\": \"47.3769\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"europe-west6\"\n        },\n        {\n            \"id\": \"gke-gcp-us-central1-a\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - US Central (Iowa)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-95\",\n                \"latitude\": \"41\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"us-central1\"\n        },\n        {\n            \"id\": \"gke-gcp-us-east4-a\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - US East 4 (N. Virginia)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-78\",\n                \"latitude\": \"38\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"us-east4\"\n        },\n        {\n            \"id\": \"aks-southeastasia\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - SouthEast Asia (Singapore)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"104\",\n                \"latitude\": \"1\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"southeastasia\"\n        },\n        {\n            \"id\": \"aks-canadacentral\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - Canada Central (Toronto)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-79\",\n                \"latitude\": \"44\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"canadacentral\"\n        },\n        {\n            \"id\": \"aks-canadaeast\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - Canada East (Quebec City)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-71\",\n                \"latitude\": \"47\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"canadaeast\"\n        },\n        {\n            \"id\": \"aks-centralindia\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - Central India (Pune)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"73.8567\",\n                \"latitude\": \"18.5204\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"centralindia\"\n        },\n        {\n            \"id\": \"aks-centralus\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - Central US (Iowa)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-94\",\n                \"latitude\": \"42\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"southcentralus\"\n        },\n        {\n            \"id\": \"aks-eastasia\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - East Asia (Hong Kong)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"114\",\n                \"latitude\": \"22\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eastasia\"\n        },\n        {\n            \"id\": \"aks-eastus\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - East US (Virginia)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-78\",\n                \"latitude\": \"37\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eastus\"\n        },\n        {\n            \"id\": \"aks-eastus2\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - East US 2 (Virginia)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-78\",\n                \"latitude\": \"37\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eastus2\"\n        },\n        {\n            \"id\": \"aks-francecentral\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - France Central (Paris)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"2\",\n                \"latitude\": \"46\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"francecentral\"\n        },\n        {\n            \"id\": \"aks-germanynorth\",\n            \"type\": \"datacenter\",\n            \"name\": \"Germany North (Berlin)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"13.41\",\n                \"latitude\": \"52.52\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"germanynorth\"\n        },\n        {\n            \"id\": \"aks-germanywestcentral\",\n            \"type\": \"datacenter\",\n            \"name\": \"Germany West Central (Frankfurt)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"8.68\",\n                \"latitude\": \"50.11\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"germanywestcentral\"\n        },\n        {\n            \"id\": \"aks-northeurope\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - North Europe (Ireland)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"7.3055\",\n                \"latitude\": \"53.7798\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"northeurope\"\n        },\n        {\n            \"id\": \"aks-australiaeast\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - Australia East (New South Wales)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"151\",\n                \"latitude\": \"-33\",\n                \"continent\": \"Australia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"australiaeast\"\n        },\n        {\n            \"id\": \"aks-uksouth\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - UK South (London)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-0.118092\",\n                \"latitude\": \"51.509865\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"uksouth\"\n        },\n        {\n            \"id\": \"aks-westeurope\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - West Europe (Netherlands)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"5\",\n                \"latitude\": \"52\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"westeurope\"\n        },\n        {\n            \"id\": \"aks-westus2\",\n            \"type\": \"datacenter\",\n            \"name\": \"AKS - West US 2 (Washington)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-120\",\n                \"latitude\": \"47\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"westus2\"\n        },\n        {\n            \"id\": \"eks-af-south-1b\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Africa (Cape Town)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"18\",\n                \"latitude\": \"-33\",\n                \"continent\": \"Africa\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"af-south-1\"\n        },\n        {\n            \"id\": \"eks-ap-northeast-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Asia Pacific (Tokyo)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"140\",\n                \"latitude\": \"36\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"ap-northeast-1\"\n        },\n        {\n            \"id\": \"eks-ap-south-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EKS - Asia Pacific South (Mumbai)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"eks\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"73\",\n                \"latitude\": \"19\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"ap-south-1\"\n        },\n        {\n            \"id\": \"aws-af-south-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"Africa (Cape Town)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aws\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"18\",\n                \"latitude\": \"-33\",\n                \"continent\": \"Africa\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\"\n            ],\n            \"cloudAgentVersion\": \"0.0.43-6bca05139d\",\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"af-south-1\"\n        },\n        {\n            \"id\": \"aws-ap-south-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"Asia Pacific South (Mumbai)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aws\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"73\",\n                \"latitude\": \"19\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\"\n            ],\n            \"cloudAgentVersion\": \"0.0.43-6bca05139d\",\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"ap-south-1\"\n        },\n        {\n            \"id\": \"aws-eu-central-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EU (Frankfurt)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aws\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"8\",\n                \"latitude\": \"50\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\"\n            ],\n            \"cloudAgentVersion\": \"0.0.43-6bca05139d\",\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eu-central-1\"\n        },\n        {\n            \"id\": \"aws-eu-west-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"EU (Ireland)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aws\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-8\",\n                \"latitude\": \"53\",\n                \"continent\": \"Europe\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\"\n            ],\n            \"cloudAgentVersion\": \"0.0.43-6bca05139d\",\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eu-west-1\"\n        },\n        {\n            \"id\": \"aws-us-west-1a\",\n            \"type\": \"datacenter\",\n            \"name\": \"US West (N. California)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"aws\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-122\",\n                \"latitude\": \"37\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\"\n            ],\n            \"cloudAgentVersion\": \"0.0.43-6bca05139d\",\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"us-west-1\"\n        },\n        {\n            \"id\": \"azure-eastus2\",\n            \"type\": \"datacenter\",\n            \"name\": \"East US 2 (Virginia)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"azure\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"-78\",\n                \"latitude\": \"37\",\n                \"continent\": \"North America\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\"\n            ],\n            \"cloudAgentVersion\": \"0.0.36-ae40564983\",\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"eastus2\"\n        },\n        {\n            \"id\": \"gke-gcp-asia-south1-a\",\n            \"type\": \"datacenter\",\n            \"name\": \"GKE - Asia South (Mumbai)\",\n            \"visible\": true,\n            \"datacenterType\": \"SolacePublic\",\n            \"provider\": \"gcp\",\n            \"operState\": \"up\",\n            \"location\": {\n                \"longitude\": \"73\",\n                \"latitude\": \"19\",\n                \"continent\": \"Asia\"\n            },\n            \"available\": true,\n            \"supportedServiceClasses\": [\n                \"ENTERPRISE_250_STANDALONE\",\n                \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_100K_STANDALONE\",\n                \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_STANDALONE\",\n                \"ENTERPRISE_50K_STANDALONE\",\n                \"ENTERPRISE_250_HIGHAVAILABILITY\",\n                \"DEVELOPER\",\n                \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n                \"ENTERPRISE_10K_STANDALONE\",\n                \"ENTERPRISE_5K_STANDALONE\"\n            ],\n            \"cloudAgentVersion\": \"v206.20240821\",\n            \"k8sServiceType\": \"LOADBALANCER\",\n            \"numSupportedPrivateEndpoints\": 0,\n            \"numSupportedPublicEndpoints\": 1,\n            \"spoolScaleUpCapabilityInfo\": {\n                \"spoolScaleUpCapabilityState\": \"UNKNOWN\",\n                \"spoolScaleUpTestTimestamp\": \"1977-01-01T12:00:00Z\"\n            },\n            \"regionId\": \"asia-south1\"\n        }\n    ],\n    \"meta\": {\n        \"pageNumber\": 1,\n        \"nextPage\": 2,\n        \"count\": 51,\n        \"totalPages\": 1,\n        \"pageSize\": 100\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get datacenters by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{MissionControlToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/missionControl/datacenters/{{datacenterId}}",
+									"protocol": "https",
+									"host": [
+										"{{region}}",
+										"console",
+										"pubsub",
+										"em",
+										"services",
+										"cloud",
+										"sap"
+									],
+									"path": [
+										"api",
+										"v2",
+										"missionControl",
+										"datacenters",
+										"{{datacenterId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get a list of datacenters by ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/missionControl/datacenters/{{datacenterId}}",
+											"protocol": "https",
+											"host": [
+												"{{region}}",
+												"console",
+												"pubsub",
+												"em",
+												"services",
+												"cloud",
+												"sap"
+											],
+											"path": [
+												"api",
+												"v2",
+												"missionControl",
+												"datacenters",
+												"{{datacenterId}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "882"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Server",
+											"value": "CloudFront"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 28 Aug 2024 07:43:20 GMT"
+										},
+										{
+											"key": "Vary",
+											"value": "accept-encoding"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubdomains"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache; no-store; must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Cache",
+											"value": "Miss from cloudfront"
+										},
+										{
+											"key": "Via",
+											"value": "1.1 d8006f736d3dc32a20a91813f2f50fa2.cloudfront.net (CloudFront)"
+										},
+										{
+											"key": "X-Amz-Cf-Pop",
+											"value": "FRA60-P7"
+										},
+										{
+											"key": "X-Amz-Cf-Id",
+											"value": "yJCAMk2vWf67sNFeOLL7k5TeDqli4anN14zaMQLVDH8EgAH6BgVtzQ=="
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": \"aks-francecentral\",\n        \"type\": \"datacenter\",\n        \"name\": \"AKS - France Central (Paris)\",\n        \"visible\": true,\n        \"datacenterType\": \"SolacePublic\",\n        \"provider\": \"aks\",\n        \"operState\": \"up\",\n        \"available\": true,\n        \"supportedServiceClasses\": [\n            \"DEVELOPER\",\n            \"ENTERPRISE_250_HIGHAVAILABILITY\",\n            \"ENTERPRISE_250_STANDALONE\",\n            \"ENTERPRISE_5K_HIGHAVAILABILITY\",\n            \"ENTERPRISE_1K_STANDALONE\",\n            \"ENTERPRISE_50K_HIGHAVAILABILITY\",\n            \"ENTERPRISE_100K_STANDALONE\",\n            \"ENTERPRISE_1K_HIGHAVAILABILITY\",\n            \"ENTERPRISE_10K_HIGHAVAILABILITY\",\n            \"ENTERPRISE_50K_STANDALONE\",\n            \"ENTERPRISE_100K_HIGHAVAILABILITY\",\n            \"ENTERPRISE_10K_STANDALONE\",\n            \"ENTERPRISE_5K_STANDALONE\"\n        ],\n        \"cloudAgentVersion\": \"v206.20240821\",\n        \"k8sServiceType\": \"LOADBALANCER\",\n        \"numSupportedPrivateEndpoints\": 0,\n        \"numSupportedPublicEndpoints\": 1,\n        \"regionId\": \"francecentral\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Event Broker Services",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{MissionControlToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{apiToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/missionControl/eventBrokerServices",
+									"protocol": "https",
+									"host": [
+										"{{region}}",
+										"console",
+										"pubsub",
+										"em",
+										"services",
+										"cloud",
+										"sap"
+									],
+									"path": [
+										"api",
+										"v2",
+										"missionControl",
+										"eventBrokerServices"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Event Broker Services by ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{MissionControlToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{apiToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/missionControl/eventBrokerServices/69afkf9w2od",
+									"protocol": "https",
+									"host": [
+										"{{region}}",
+										"console",
+										"pubsub",
+										"em",
+										"services",
+										"cloud",
+										"sap"
+									],
+									"path": [
+										"api",
+										"v2",
+										"missionControl",
+										"eventBrokerServices",
+										"69afkf9w2od"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Event Mesh",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{MissionControlToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{apiToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/architecture/eventMeshes",
+									"protocol": "https",
+									"host": [
+										"{{region}}",
+										"console",
+										"pubsub",
+										"em",
+										"services",
+										"cloud",
+										"sap"
+									],
+									"path": [
+										"api",
+										"v2",
+										"architecture",
+										"eventMeshes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Event Broker Service",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Check status",
+											"tests[\"Expected status code - \" + responseCode.code + \" CREATED\"] = responseCode.code === 201;",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"var serviceId;",
+											"",
+											"if (jsonData.data.constructor == Array)",
+											"    serviceId = jsonData.data[0].serviceId;",
+											"else",
+											"    serviceId = jsonData.data.serviceId;",
+											"",
+											"pm.environment.set(\"serviceId\", serviceId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{MissionControlToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{apiToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"name\": \"AEM_CommunitySubregion\",\n   \"datacenterId\": \"{{datacenterId}}\",\n   \"serviceClassId\":\"{{serviceClassId}}\",\n   \"serviceTypeId\": \"{{serviceTypeId}}\",\n   \"adminState\": \"start\",\n   \"cluster\": {\n\t\t\"name\": \"My-First-Cluster\"\n  \t}\n}                                                       "
+								},
+								"url": {
+									"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/missionControl/eventBrokerServices",
+									"protocol": "https",
+									"host": [
+										"{{region}}",
+										"console",
+										"pubsub",
+										"em",
+										"services",
+										"cloud",
+										"sap"
+									],
+									"path": [
+										"api",
+										"v2",
+										"missionControl",
+										"eventBrokerServices"
+									]
+								},
+								"description": "This creates an Event Broker Service.\n\nThe **datacenterId** paramenter in the body specifeies which cloud region that messaging service will be created in.\n\nThe **serviceClassId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise-250-nano*, *enterprise-kilo*, *enterprise-mega*, *enterprise-giga*, *enterprise-tera*, *enterprise-100k-tera*\n\nThe **serviceTypeId** parameter in the body specifies which type of service will be created.\n\nValid Values are: *developer*, *enterprise*"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Event Broker Service",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{MissionControlToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{apiToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "https://{{region}}.console.pubsub.em.services.cloud.sap/api/v2/missionControl/eventBrokerServices/cje1cj5rqba",
+									"protocol": "https",
+									"host": [
+										"{{region}}",
+										"console",
+										"pubsub",
+										"em",
+										"services",
+										"cloud",
+										"sap"
+									],
+									"path": [
+										"api",
+										"v2",
+										"missionControl",
+										"eventBrokerServices",
+										"cje1cj5rqba"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "The REST API for advanced event mesh for SAP Integration Suite provides a mechanism for you to programmatically manage event broker services, work with Event Portal, and manage accounts for advanced event mesh. To use any of the REST APIs, you must have an API token for bearer authentication. For more information, see [Managing API Tokens](https://help.pubsub.em.services.cloud.sap/Cloud/ght_api_tokens.htm).EndFragment"
+		},
+		{
+			"name": "Example REST Eventing",
+			"item": [
+				{
+					"name": "publish topic",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{solace-cloud-client_pw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{solace-cloud-client}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							},
+							{
+								"key": "Solace-delivery-mode",
+								"value": "direct"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "Hello World REST 5",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:9443/topic/{{TopicName}}",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "9443",
+							"path": [
+								"topic",
+								"{{TopicName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "publish on API topic",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{solace-cloud-client_pw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{solace-cloud-client}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							},
+							{
+								"key": "Solace-delivery-mode",
+								"value": "direct"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "Hello World REST 5",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:9443/topic/{{TopicName}}API",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "9443",
+							"path": [
+								"topic",
+								"{{TopicName}}API"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "publish queue",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{solace-cloud-client_pw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{solace-cloud-client}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							},
+							{
+								"key": "Solace-delivery-mode",
+								"value": "direct"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "Hello World REST 2",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:9443/queue/{{QueueName}}",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "9443",
+							"path": [
+								"queue",
+								"{{QueueName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "publish on API queue",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{solace-cloud-client_pw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{solace-cloud-client}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/plain"
+							},
+							{
+								"key": "Solace-delivery-mode",
+								"value": "direct"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "Hello World REST 2",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{broker}}.messaging.solace.cloud:9443/queue/AEMQueueAPI",
+							"protocol": "https",
+							"host": [
+								"{{broker}}",
+								"messaging",
+								"solace",
+								"cloud"
+							],
+							"port": "9443",
+							"path": [
+								"queue",
+								"AEMQueueAPI"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "datacenterId",
+			"value": "aks-francecentral",
+			"type": "string"
+		},
+		{
+			"key": "serviceClassId",
+			"value": "DEVELOPER",
+			"type": "string"
+		},
+		{
+			"key": "serviceTypeId",
+			"value": "DEVELOPER",
+			"type": "string"
+		},
+		{
+			"key": "region",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "MissionControlToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "SEMPv2User",
+			"value": ""
+		},
+		{
+			"key": "SEMPv2Password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "msgVPN",
+			"value": ""
+		},
+		{
+			"key": "broker",
+			"value": ""
+		},
+		{
+			"key": "QueueName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TopicName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solace-cloud-client",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "solace-cloud-client_pw",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
