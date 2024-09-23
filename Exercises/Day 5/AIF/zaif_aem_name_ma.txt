@@ -1,0 +1,13 @@
+@EndUserText.label : 'Name Mapping'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #ALLOWED
+define table zaif_aem_name_ma {
+
+key client : mandt not null;
+key name_mapping_id : zaif_aem_name_mapping_id not null;
+key abap : char30 not null;
+json : badi_char255;
+
+}

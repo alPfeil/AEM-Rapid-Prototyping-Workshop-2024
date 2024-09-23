@@ -1,0 +1,7 @@
+@EndUserText.label : 'ZAIF_EM_BP_DATA'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_bp_data {
+
+  businesspartner : zaif_em_bp_tab;
+
+}

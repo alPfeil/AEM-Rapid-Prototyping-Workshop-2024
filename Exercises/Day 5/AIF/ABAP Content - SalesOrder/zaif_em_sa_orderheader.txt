@@ -1,0 +1,16 @@
+@EndUserText.label : 'Order Header'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_sa_orderheader {
+
+  sales_order_number   : abap.string(0);
+  creator              : abap.string(0);
+  date                 : abap.string(0);
+  sales_type           : abap.string(0);
+  order_type           : abap.string(0);
+  sales_org            : abap.string(0);
+  distribution_channel : abap.string(0);
+  division             : abap.string(0);
+  customer             : zaif_em_sa_customer_tab;
+  order_item           : zaif_em_sa_orderitem_tab;
+
+}

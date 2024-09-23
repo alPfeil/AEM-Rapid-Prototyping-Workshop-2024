@@ -1,0 +1,7 @@
+@EndUserText.label : 'Sales Order Message'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_sa_salesorder {
+
+  order_header : zaif_em_sa_orderheader_tab;
+
+}

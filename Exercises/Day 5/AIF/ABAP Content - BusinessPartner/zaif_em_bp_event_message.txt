@@ -1,0 +1,10 @@
+@EndUserText.label : 'Event Message'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_bp_event_message {
+
+
+controller : zaif_aem_controller;
+data : zaif_em_bp_data;
+
+
+}

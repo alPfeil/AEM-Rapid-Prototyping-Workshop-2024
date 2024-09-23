@@ -1,0 +1,103 @@
+FUNCTION zaif_aem_bupa_fill_s4 .
+*"----------------------------------------------------------------------
+*"*"Local Interface:
+*"  IMPORTING
+*"     REFERENCE(RAW_STRUCT)
+*"     REFERENCE(RAW_LINE)
+*"     REFERENCE(SMAP) TYPE  /AIF/T_SMAP
+*"     REFERENCE(INTREC) TYPE  /AIF/T_INTREC
+*"     REFERENCE(SENDING_SYSTEM) TYPE  /AIF/AIF_BUSINESS_SYSTEM_KEY
+*"       OPTIONAL
+*"  TABLES
+*"      RETURN_TAB STRUCTURE  BAPIRET2 OPTIONAL
+*"  CHANGING
+*"     REFERENCE(OUT_STRUCT) TYPE  ZAIF_EM_BP_EVENT_MESSAGE
+*"     REFERENCE(DEST_LINE)
+*"     REFERENCE(DEST_TABLE)
+*"     REFERENCE(APPEND_FLAG) TYPE  C
+*"----------------------------------------------------------------------
+
+  ASSIGN COMPONENT 'OBJKEY' OF STRUCTURE raw_struct TO FIELD-SYMBOL(<ls_obj_key>).
+  IF <ls_obj_key> IS NOT ASSIGNED.
+    CALL FUNCTION '/AIF/UTIL_ADD_MSG'
+      EXPORTING
+        msgty      = 'E'
+        msgid      = '/AIF/MES'
+        msgno      = '000'
+        msgv1      = 'Error during ObjKey Assignment'
+      TABLES
+        return_tab = return_tab.
+    RETURN.
+  ENDIF.
+
+  DATA lv_date_from_str TYPE string.
+
+  SELECT
+    FROM A_BusinessPartner
+    FIELDS
+      BusinessPartner AS partner_id,
+      FirstName AS first_name,
+      lastName AS last_name,
+      businesspartnercategory AS business_partner_type,
+      \_BusinessPartnerAddress-addressid AS address_number,
+      \_BusinessPartnerAddress-ValidityStartDate AS date_from,
+      \_BusinessPartnerAddress-validityenddate,
+      "\_BusinessPartnerAddress-nation "does not exist
+      \_BusinessPartnerAddress-streetname AS street,
+      \_BusinessPartnerAddress-cityname AS city,
+      \_BusinessPartnerAddress-housenumber AS house_number,
+      \_BusinessPartnerAddress-postalcode AS postal_code,
+      \_BusinessPartnerAddress-country
+   WHERE BusinessPartner = @<ls_obj_key>
+    INTO TABLE @DATA(lt_result).
+
+  IF lt_result IS NOT INITIAL.
+
+    READ TABLE lt_result ASSIGNING FIELD-SYMBOL(<ls_general_data>) INDEX 1. "General Data the same in each line
+
+    APPEND INITIAL LINE TO out_struct-data-businesspartner ASSIGNING FIELD-SYMBOL(<ls_businesspartner>).
+
+    IF <ls_general_data> IS ASSIGNED.
+      SHIFT <ls_general_data>-partner_id LEFT DELETING LEADING '0'.
+      MOVE-CORRESPONDING <ls_general_data> TO <ls_businesspartner>.
+      "<ls_businesspartner>-partner_id = raw_struct-objkey.
+      "<ls_businesspartner>-business_partner_type = <ls_general_data>-businesspartnercategory.
+      "<ls_businesspartner>-first_name = <ls_general_data>-firstname.
+      "<ls_businesspartner>-last_name = <ls_general_data>-lastname.
+    ELSE.
+      "TBD Error
+    ENDIF.
+
+    "Mapp Address Data
+    LOOP AT lt_result ASSIGNING FIELD-SYMBOL(<ls_address_data>).
+
+      APPEND INITIAL LINE TO <ls_businesspartner>-address_link ASSIGNING FIELD-SYMBOL(<ls_address_out>).
+      <ls_address_out>-address_number = <ls_address_data>-address_number.
+      <ls_address_out>-date_from = <ls_address_data>-date_from.
+      SHIFT <ls_address_out>-address_number LEFT DELETING LEADING '0'.
+*      lv_date_from_str = CONV string( <ls_address_data>-date_from ).
+*      <ls_address_out>-date_from = lv_date_from_str(8).
+      CLEAR lv_date_from_str.
+      APPEND INITIAL LINE TO <ls_address_out>-address ASSIGNING FIELD-SYMBOL(<ls_address_details_out>).
+
+      MOVE-CORRESPONDING <ls_address_data> TO <ls_address_details_out>.
+
+      "<ls_address_details_out>-city = <ls_address_data>-cityname.
+      "<ls_address_details_out>-nation = <ls_address_data>-nation. "does not exist in CDS View
+      "<ls_address_details_out>-street = <ls_address_data>-streetname.
+      "<ls_address_details_out>-house_number = <ls_address_data>-housenumber.
+      "<ls_address_details_out>-postal_code = <ls_address_data>-postalcode.
+      "<ls_address_details_out>-country = <ls_address_data>-country.
+    ENDLOOP.
+
+    "Map Topic URL
+
+    out_struct-controller-uri = '/Topic/' && out_struct-controller-topic && '/' &&
+    to_lower( out_struct-controller-event ) && '/' &&
+    out_struct-controller-version && '/' &&
+    <ls_general_data>-business_partner_type && '/' &&
+    <ls_general_data>-partner_id.
+
+  ENDIF.
+
+ENDFUNCTION.

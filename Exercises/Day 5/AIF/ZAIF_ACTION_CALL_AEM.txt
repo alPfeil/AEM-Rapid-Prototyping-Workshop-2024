@@ -1,0 +1,146 @@
+FUNCTION zaif_action_call_aem.
+*"----------------------------------------------------------------------
+*"*"Local Interface:
+*"  IMPORTING
+*"     REFERENCE(TESTRUN) TYPE  C
+*"     REFERENCE(SENDING_SYSTEM) TYPE  /AIF/AIF_BUSINESS_SYSTEM_KEY
+*"       OPTIONAL
+*"  TABLES
+*"      RETURN_TAB STRUCTURE  BAPIRET2
+*"  CHANGING
+*"     REFERENCE(DATA)
+*"     REFERENCE(CURR_LINE)
+*"     REFERENCE(SUCCESS) TYPE  /AIF/SUCCESSFLAG
+*"     REFERENCE(OLD_MESSAGES) TYPE  /AIF/BAL_T_MSG
+*"----------------------------------------------------------------------
+
+  DATA: lv_json TYPE string.
+  DATA: lv_status_code TYPE i.
+  DATA: lv_status_reason TYPE string.
+  DATA: lr_http_client  TYPE REF TO if_http_client.
+  DATA: ls_bapiret2 TYPE bapiret2.
+  DATA: ls_name_mapping TYPE /ui2/cl_json=>name_mapping.
+  DATA: lt_name_mappings TYPE /ui2/cl_json=>name_mappings.
+  FIELD-SYMBOLS: <ls_data> TYPE any.
+  FIELD-SYMBOLS: <ls_controller> TYPE zaif_aem_controller.
+  DATA: lv_uri TYPE string.
+  DATA: ls_aif_aem_name_ma TYPE zaif_aem_name_ma.
+  DATA: lt_aif_aem_name_ma TYPE TABLE OF zaif_aem_name_ma.
+
+  ASSIGN COMPONENT 'DATA' OF STRUCTURE data TO <ls_data>.
+  ASSIGN COMPONENT 'CONTROLLER' OF STRUCTURE data TO <ls_controller>.
+
+
+  SELECT * FROM zaif_aem_name_ma INTO TABLE lt_aif_aem_name_ma WHERE name_mapping_id = <ls_controller>-name_mapping_id.
+
+  LOOP AT lt_aif_aem_name_ma INTO ls_aif_aem_name_ma.
+    MOVE-CORRESPONDING ls_aif_aem_name_ma TO ls_name_mapping.
+    INSERT ls_name_mapping INTO TABLE lt_name_mappings.
+  ENDLOOP.
+
+  /ui2/cl_json=>serialize(              " for NW 7.55 ff, /ui2_cl_json must be used
+      EXPORTING
+          data             = <ls_data>
+          name_mappings    = lt_name_mappings
+      RECEIVING
+          r_json           = lv_json ).
+
+  cl_http_client=>create_by_destination(
+      EXPORTING
+          destination              = <ls_controller>-rfc_dest
+      IMPORTING
+          client = lr_http_client    " HTTP Client Abstraction
+      EXCEPTIONS
+          argument_not_found       = 1                " Connection Parameter (Destination) Not Available
+          destination_not_found    = 2                " Destination not found
+          destination_no_authority = 3                " No Authorization to Use HTTP Destination
+          plugin_not_active        = 4                " HTTP/HTTPS communication not available
+          internal_error           = 5                " Internal error (e.g. name too long)
+          OTHERS                   = 6
+  ).
+
+  IF sy-subrc <> 0.
+    ls_bapiret2-id = sy-msgid.ls_bapiret2-number = sy-msgno.ls_bapiret2-type = sy-msgty.
+    ls_bapiret2-message_v1 = sy-msgv1.ls_bapiret2-message_v2 = sy-msgv2.ls_bapiret2-message_v3 = sy-msgv3.ls_bapiret2-message_v4 = sy-msgv4.
+    APPEND ls_bapiret2 TO return_tab.RETURN.
+  ENDIF.
+
+  lr_http_client->request->set_header_field( name = 'Content-Type'              ##NO_TEXT
+                                          value = 'application/json' ).
+  lr_http_client->request->set_method( 'POST' ).
+
+  lr_http_client->request->set_cdata(
+      data = lv_json ).
+
+  lv_uri = <ls_controller>-uri.
+
+  cl_http_utility=>set_request_uri(
+      EXPORTING
+          request = lr_http_client->request
+          uri     = lv_uri
+  ).
+
+  lr_http_client->send(
+      EXCEPTIONS
+          http_communication_failure = 1
+          http_invalid_state         = 2
+          http_processing_failed     = 3
+          http_invalid_timeout       = 4
+          OTHERS                     = 5 ).
+
+  IF sy-subrc <> 0.
+    ls_bapiret2-id = sy-msgid.ls_bapiret2-number = sy-msgno.ls_bapiret2-type = sy-msgty.
+    ls_bapiret2-message_v1 = sy-msgv1.ls_bapiret2-message_v2 = sy-msgv2.ls_bapiret2-message_v3 = sy-msgv3.ls_bapiret2-message_v4 = sy-msgv4.
+    APPEND ls_bapiret2 TO return_tab.
+    RETURN.
+  ENDIF.
+
+  lr_http_client->receive(
+      EXCEPTIONS
+          http_communication_failure = 1
+          http_invalid_state         = 2
+          http_processing_failed     = 3
+          OTHERS                     = 5 ).
+
+  IF sy-subrc <> 0.
+    ls_bapiret2-id = sy-msgid.ls_bapiret2-number = sy-msgno.ls_bapiret2-type = sy-msgty.
+    ls_bapiret2-message_v1 = sy-msgv1.ls_bapiret2-message_v2 = sy-msgv2.ls_bapiret2-message_v3 = sy-msgv3.ls_bapiret2-message_v4 = sy-msgv4.
+    APPEND ls_bapiret2 TO return_tab.
+    RETURN.
+  ENDIF.
+
+  lr_http_client->response->get_status( IMPORTING code = lv_status_code reason = lv_status_reason ).
+
+  " close the connection
+  lr_http_client->close(
+      EXCEPTIONS
+          http_invalid_state = 1                " Invalid state
+          OTHERS             = 2
+  ).
+
+  IF sy-subrc <> 0.
+    ls_bapiret2-id = sy-msgid.ls_bapiret2-number = sy-msgno.ls_bapiret2-type = sy-msgty.
+    ls_bapiret2-message_v1 = sy-msgv1.ls_bapiret2-message_v2 = sy-msgv2.ls_bapiret2-message_v3 = sy-msgv3.ls_bapiret2-message_v4 = sy-msgv4.
+    APPEND ls_bapiret2 TO return_tab.
+    RETURN.
+  ENDIF.
+
+
+  IF lv_status_code = 200 .
+    ls_bapiret2-id = 'ZAIF_AEM_MESSAGES'.
+    ls_bapiret2-number = '004'.
+    ls_bapiret2-type = 'S'.
+    ls_bapiret2-message_v1 = lv_status_code.
+    CONDENSE ls_bapiret2-message_v1.
+    APPEND ls_bapiret2 TO return_tab.
+  ELSE.
+    ls_bapiret2-id = 'ZAIF_AEM_MESSAGES'.
+    ls_bapiret2-number = '003'.
+    ls_bapiret2-type = 'E'.
+    ls_bapiret2-message_v1 = lv_status_code.
+    ls_bapiret2-message_v2 = lv_status_reason.
+    CONDENSE ls_bapiret2-message_v1.
+    APPEND ls_bapiret2 TO return_tab.
+  ENDIF.
+
+ENDFUNCTION.

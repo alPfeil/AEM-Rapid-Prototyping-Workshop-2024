@@ -1,0 +1,9 @@
+@EndUserText.label : 'Rapid Prototype - Order Schedule'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_sa_orderschedule {
+
+  schedule_number : abap.string(0);
+  quantity        : abap.dec(10,3);
+  uom             : abap.string(0);
+
+}

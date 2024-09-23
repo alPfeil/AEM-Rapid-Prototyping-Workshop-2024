@@ -1,0 +1,146 @@
+FUNCTION zaif_aem_saor_fill_s4 .
+*"----------------------------------------------------------------------
+*"*"Local Interface:
+*"  IMPORTING
+*"     REFERENCE(RAW_STRUCT)
+*"     REFERENCE(RAW_LINE)
+*"     REFERENCE(SMAP) TYPE  /AIF/T_SMAP
+*"     REFERENCE(INTREC) TYPE  /AIF/T_INTREC
+*"     REFERENCE(SENDING_SYSTEM) TYPE  /AIF/AIF_BUSINESS_SYSTEM_KEY
+*"       OPTIONAL
+*"  TABLES
+*"      RETURN_TAB STRUCTURE  BAPIRET2 OPTIONAL
+*"  CHANGING
+*"     REFERENCE(OUT_STRUCT) TYPE  ZAIF_EM_SA_EVENT_MESSAGE
+*"     REFERENCE(DEST_LINE)
+*"     REFERENCE(DEST_TABLE)
+*"     REFERENCE(APPEND_FLAG) TYPE  C
+*"----------------------------------------------------------------------
+
+  ASSIGN COMPONENT 'OBJKEY' OF STRUCTURE raw_struct TO FIELD-SYMBOL(<ls_obj_key>).
+  IF <ls_obj_key> IS NOT ASSIGNED.
+    CALL FUNCTION '/AIF/UTIL_ADD_MSG'
+      EXPORTING
+        msgty      = 'E'
+        msgid      = '/AIF/MES'
+        msgno      = '000'
+        msgv1      = 'Error during ObjKey Assignment'
+      TABLES
+        return_tab = return_tab.
+    RETURN.
+  ENDIF.
+
+  SELECT
+    FROM I_SalesOrder
+    FIELDS
+      SalesOrder AS sales_Order_Number,
+      CreatedByUser AS creator,
+      SalesOrderDate AS date,
+      'C' AS sales_Type,
+      SalesOrderType AS order_type,
+      SalesOrganization AS sales_org,
+      DistributionChannel AS distribution_Channel,
+      OrganizationDivision AS division,
+      SoldToParty AS customer_Id,
+      \_Item-SalesOrderItem AS item,
+      \_item-material,
+      \_item-MaterialGroup AS material_type,
+      \_item-SalesOrderItemType AS item_type,
+      \_item\_ScheduleLine-ScheduleLine AS schedule_number,
+      \_item\_ScheduleLine-ConfdOrderQtyByMatlAvailCheck AS quantity,
+      \_item\_ScheduleLine-BaseUnit AS uom
+
+   WHERE SalesOrder = @<ls_obj_key>
+    INTO TABLE @DATA(lt_results).
+
+
+  "does not matter which line, because customer is a header field
+
+  IF lt_results IS INITIAL.
+    "TBD Error
+  ELSE.
+
+    READ TABLE lt_results ASSIGNING FIELD-SYMBOL(<ls_salesorder>) INDEX 1.
+
+    APPEND INITIAL LINE TO out_struct-data-order_header ASSIGNING FIELD-SYMBOL(<ls_order_header>).
+    APPEND INITIAL LINE TO <ls_order_header>-customer ASSIGNING FIELD-SYMBOL(<ls_customer>).
+    <ls_customer>-customer_id = <ls_salesorder>-customer_id.
+
+    SELECT
+      FROM I_Customer
+      FIELDS
+       CustomerName AS customer_Name,
+       PostalCode AS zip_code,
+       streetname AS street,
+       TelephoneNumber1 AS phone,
+       country AS country,
+       cityname AS city
+      WHERE Customer = @<ls_customer>-customer_id
+      INTO TABLE @DATA(lt_customer_data).
+
+    IF lt_customer_data IS INITIAL.
+      "TBD error
+    ELSE.
+      .
+
+      READ TABLE lt_customer_data ASSIGNING FIELD-SYMBOL(<ls_customer_data>) INDEX 1.
+
+      "Remove leading Zero of Customer ID
+      SHIFT <ls_salesorder>-customer_id LEFT DELETING LEADING '0'.
+      <ls_customer>-customer_id = <ls_salesorder>-customer_id.
+
+      "Order Type Conversion int -> ext
+      CALL FUNCTION 'CONVERSION_EXIT_AUART_OUTPUT'
+        EXPORTING
+          input  = <ls_salesorder>-order_type
+        IMPORTING
+          output = <ls_salesorder>-order_type.
+
+      "Map Header Data
+      MOVE-CORRESPONDING <ls_salesorder> TO <ls_order_header>.
+      <ls_order_header>-date = <ls_salesorder>-date(4) && '-' && <ls_salesorder>-date+4(2) && '-' && <ls_salesorder>-date+6(2).
+
+      "Removing Leading Zeros
+      SHIFT <ls_order_header>-sales_order_number LEFT DELETING LEADING '0'.
+
+      "Map Customer Data
+      MOVE-CORRESPONDING <ls_customer_data> TO <ls_customer>.
+      "Map Item Data
+      LOOP AT lt_results ASSIGNING FIELD-SYMBOL(<ls_result>).
+        READ TABLE <ls_order_header>-order_item ASSIGNING FIELD-SYMBOL(<ls_item>)
+          WITH KEY item = <ls_result>-item.
+        IF sy-subrc IS NOT INITIAL.
+          APPEND INITIAL LINE TO <ls_order_header>-order_item ASSIGNING <ls_item>.
+          MOVE-CORRESPONDING <ls_result> TO <ls_item>.
+        ENDIF.
+
+        "Map Schedule Data
+        READ TABLE <ls_item>-order_schedule TRANSPORTING NO FIELDS
+          WITH KEY
+            schedule_number = <ls_result>-schedule_number.
+        IF sy-subrc IS NOT INITIAL.
+          APPEND INITIAL LINE TO <ls_item>-order_schedule ASSIGNING FIELD-SYMBOL(<ls_schedule>).
+          MOVE-CORRESPONDING <ls_result> TO <ls_schedule>.
+          SORT <ls_item>-order_schedule BY schedule_number.
+        ENDIF.
+
+      ENDLOOP.
+
+      SORT <ls_order_header>-order_item BY item.
+
+    ENDIF.
+
+    "Append Data To Topic Path
+    out_struct-controller-uri = '/Topic/' && out_struct-controller-topic && '/' &&
+                                  to_lower( out_struct-controller-event ) && '/' &&
+                                  out_struct-controller-version && '/' &&
+                                  <ls_order_header>-sales_org && '/' &&
+                                  <ls_order_header>-distribution_channel && '/' &&
+                                  <ls_order_header>-division && '/' &&
+                                  <ls_order_header>-sales_order_number.
+
+  ENDIF.
+
+
+
+ENDFUNCTION.

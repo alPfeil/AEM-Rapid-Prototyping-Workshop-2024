@@ -1,0 +1,10 @@
+@EndUserText.label : 'ZAIF_EVENT_RAW'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_event_raw {
+
+objtype : swo_objtyp;
+objkey : swo_typeid;
+event : swo_event;
+rectype : swe_rectyp;
+
+}

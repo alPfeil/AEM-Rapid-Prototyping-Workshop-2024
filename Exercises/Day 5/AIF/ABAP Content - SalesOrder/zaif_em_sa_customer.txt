@@ -1,0 +1,13 @@
+@EndUserText.label : 'Customer'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_sa_customer {
+
+  customer_id   : abap.string(0);
+  customer_name : abap.string(0);
+  zip_code      : abap.string(0);
+  street        : abap.string(0);
+  phone         : abap.string(0);
+  country       : abap.string(0);
+  city          : abap.string(0);
+
+}

@@ -1,0 +1,12 @@
+@EndUserText.label : 'Address Details'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_bp_address_details {
+
+  nation       : ad_nation;
+  city         : ad_city1;
+  street       : ad_street;
+  house_number : ad_hsnm1;
+  postal_code  : ad_pstcd1;
+  country      : land1;
+
+}

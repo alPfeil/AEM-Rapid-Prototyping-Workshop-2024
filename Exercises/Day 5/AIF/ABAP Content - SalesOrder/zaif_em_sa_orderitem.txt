@@ -1,0 +1,11 @@
+@EndUserText.label : 'orderItem'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_sa_orderitem {
+
+  item           : abap.string(0);
+  material       : abap.string(0);
+  material_type  : abap.string(0);
+  item_type      : abap.string(0);
+  order_schedule : zaif_em_sa_orderschedule_tab;
+
+}

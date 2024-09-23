@@ -1,0 +1,130 @@
+FUNCTION zaif_aem_saor_fill .
+*"----------------------------------------------------------------------
+*"*"Local Interface:
+*"  IMPORTING
+*"     REFERENCE(RAW_STRUCT)
+*"     REFERENCE(RAW_LINE)
+*"     REFERENCE(SMAP) TYPE  /AIF/T_SMAP
+*"     REFERENCE(INTREC) TYPE  /AIF/T_INTREC
+*"     REFERENCE(SENDING_SYSTEM) TYPE  /AIF/AIF_BUSINESS_SYSTEM_KEY
+*"       OPTIONAL
+*"  TABLES
+*"      RETURN_TAB STRUCTURE  BAPIRET2 OPTIONAL
+*"  CHANGING
+*"     REFERENCE(OUT_STRUCT) TYPE  ZAIF_EM_SA_EVENT_MESSAGE
+*"     REFERENCE(DEST_LINE)
+*"     REFERENCE(DEST_TABLE)
+*"     REFERENCE(APPEND_FLAG) TYPE  C
+*"----------------------------------------------------------------------
+
+  ASSIGN COMPONENT 'OBJKEY' OF STRUCTURE raw_struct TO FIELD-SYMBOL(<ls_obj_key>).
+  IF <ls_obj_key> IS NOT ASSIGNED.
+    CALL FUNCTION '/AIF/UTIL_ADD_MSG'
+      EXPORTING
+        msgty      = 'E'
+        msgid      = '/AIF/MES'
+        msgno      = '000'
+        msgv1      = 'Error during ObjKey Assignment'
+      TABLES
+        return_tab = return_tab.
+    RETURN.
+  ENDIF.
+
+  SELECT
+    FROM zaif_aem_saor_v
+    FIELDS
+      sales_Order_Number,
+      creator,
+      doc_date AS date,
+      'C' AS sales_Type,
+      order_type,
+      sales_org,
+      distribution_Channel,
+      division,
+      customer_Id,
+      item,
+      material,
+      material_type,
+      item_type,
+      schedule_number,
+      quantity,
+      uom,
+      customer_name,
+      zip_code,
+      street,
+      phone,
+      country,
+      city
+   WHERE sales_order_number = @<ls_obj_key>
+    INTO TABLE @DATA(lt_results).
+
+  IF lt_results IS INITIAL.
+    "TBD Error
+  ELSE.
+
+    READ TABLE lt_results ASSIGNING FIELD-SYMBOL(<ls_salesorder>) INDEX 1.
+
+    "These only exist once but somehow are defined as array in the JSON Schema -> Append 1 line each
+    APPEND INITIAL LINE TO out_struct-data-order_header ASSIGNING FIELD-SYMBOL(<ls_order_header>).
+    APPEND INITIAL LINE TO <ls_order_header>-customer ASSIGNING FIELD-SYMBOL(<ls_customer>).
+
+    "Remove leading Zero of Customer ID
+    SHIFT <ls_salesorder>-customer_id LEFT DELETING LEADING '0'.
+    <ls_customer>-customer_id = <ls_salesorder>-customer_id.
+
+    "Order Type Conversion int -> ext
+    CALL FUNCTION 'CONVERSION_EXIT_AUART_OUTPUT'
+      EXPORTING
+        input  = <ls_salesorder>-order_type
+      IMPORTING
+        output = <ls_salesorder>-order_type.
+    .
+
+    "Map Header Data
+    MOVE-CORRESPONDING <ls_salesorder> TO <ls_order_header>.
+    <ls_order_header>-date = <ls_salesorder>-date(4) && '-' && <ls_salesorder>-date+4(2) && '-' && <ls_salesorder>-date+6(2).
+
+    "Removing Leading Zeros
+    SHIFT <ls_order_header>-sales_order_number LEFT DELETING LEADING '0'.
+
+    "Map Customer Data
+    MOVE-CORRESPONDING <ls_salesorder> TO <ls_customer>.
+    "Map Item Data
+    LOOP AT lt_results ASSIGNING FIELD-SYMBOL(<ls_result>).
+      READ TABLE <ls_order_header>-order_item ASSIGNING FIELD-SYMBOL(<ls_item>)
+        WITH KEY item = <ls_result>-item.
+      IF sy-subrc IS NOT INITIAL.
+        APPEND INITIAL LINE TO <ls_order_header>-order_item ASSIGNING <ls_item>.
+        MOVE-CORRESPONDING <ls_result> TO <ls_item>.
+      ENDIF.
+
+      "Map Schedule Data
+      READ TABLE <ls_item>-order_schedule TRANSPORTING NO FIELDS
+        WITH KEY
+          schedule_number = <ls_result>-schedule_number.
+      IF sy-subrc IS NOT INITIAL.
+        APPEND INITIAL LINE TO <ls_item>-order_schedule ASSIGNING FIELD-SYMBOL(<ls_schedule>).
+        MOVE-CORRESPONDING <ls_result> TO <ls_schedule>.
+        SORT <ls_item>-order_schedule BY schedule_number.
+      ENDIF.
+
+    ENDLOOP.
+
+    SORT <ls_order_header>-order_item BY item.
+
+
+  ENDIF.
+
+  "Append Data To Topic Path
+  out_struct-controller-uri = '/Topic/' && out_struct-controller-topic && '/' &&
+                                to_lower( out_struct-controller-event ) && '/' &&
+                                out_struct-controller-version && '/' &&
+                                <ls_order_header>-sales_org && '/' &&
+                                <ls_order_header>-distribution_channel && '/' &&
+                                <ls_order_header>-division && '/' &&
+                                <ls_order_header>-sales_order_number.
+
+
+
+
+ENDFUNCTION.

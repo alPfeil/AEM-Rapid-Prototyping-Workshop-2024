@@ -1,0 +1,9 @@
+@EndUserText.label : 'Address'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_bp_address {
+
+  address_number : ad_addrnum;
+  date_from      : abap.dec(14,0);
+  address        : zaif_em_bp_address_details_tt;
+
+}

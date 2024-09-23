@@ -1,0 +1,11 @@
+@EndUserText.label : 'Business Partner'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+define structure zaif_em_bp {
+
+  partner_id            : bu_partner;
+  first_name            : bu_namep_l;
+  last_name             : bu_namep_f;
+  business_partner_type : bu_type;
+  address_link          : zaif_em_bp_address_tt;
+
+}

@@ -1,0 +1,56 @@
+FUNCTION zaif_aem_bupa_get_data .
+*"----------------------------------------------------------------------
+*"*"Local Interface:
+*"  IMPORTING
+*"     REFERENCE(RAW_STRUCT) TYPE  ZAIF_EVENT_RAW
+*"     REFERENCE(RAW_LINE)
+*"     REFERENCE(SMAP) TYPE  /AIF/T_SMAP
+*"     REFERENCE(INTREC) TYPE  /AIF/T_INTREC
+*"     REFERENCE(SENDING_SYSTEM) TYPE  /AIF/AIF_BUSINESS_SYSTEM_KEY
+*"       OPTIONAL
+*"  TABLES
+*"      RETURN_TAB STRUCTURE  BAPIRET2 OPTIONAL
+*"  CHANGING
+*"     REFERENCE(OUT_STRUCT) TYPE  ZAIF_AEM_BUPA_EVENT_MESSAGE
+*"     REFERENCE(DEST_LINE)
+*"     REFERENCE(DEST_TABLE)
+*"     REFERENCE(APPEND_FLAG) TYPE  C
+*"----------------------------------------------------------------------
+
+  SELECT
+    FROM A_BusinessPartner
+    FIELDS
+      BusinessPartner,
+      FirstName,
+      lastName,
+      businesspartnercategory,
+      \_BusinessPartnerAddress-addressid,
+      \_BusinessPartnerAddress-ValidityStartDate,
+      \_BusinessPartnerAddress-validityenddate,
+      \_BusinessPartnerAddress-streetname,
+      \_BusinessPartnerAddress-cityname,
+      \_BusinessPartnerAddress-housenumber,
+      \_BusinessPartnerAddress-postalcode,
+      \_BusinessPartnerAddress-country
+   WHERE BusinessPartner = @raw_struct-objkey
+    INTO TABLE @DATA(lt_result).
+
+  IF lt_result IS NOT INITIAL.
+    READ TABLE lt_result ASSIGNING FIELD-SYMBOL(<ls_result>) INDEX 1. "General Data is the same in every Row
+    IF <ls_result> IS ASSIGNED.
+      MOVE-CORRESPONDING <ls_result> TO out_struct-data-businesspartner.
+    ENDIF.
+    MOVE-CORRESPONDING lt_result TO out_struct-data-bpaddress.
+  ELSE.
+    CALL FUNCTION '/AIF/UTIL_ADD_MSG'
+      EXPORTING
+        msgty      = 'E'
+        msgid      = '/AIF/MES'
+        msgno      = '000'
+        msgv1      = 'No Business partner found'
+      TABLES
+        return_tab = return_tab.
+
+  ENDIF.
+
+ENDFUNCTION.

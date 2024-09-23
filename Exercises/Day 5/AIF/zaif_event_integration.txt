@@ -1,0 +1,27 @@
+FUNCTION zaif_event_integration .
+*"----------------------------------------------------------------------
+*"*"Local Interface:
+*"  IMPORTING
+*"     VALUE(OBJTYPE) LIKE  SWETYPECOU-OBJTYPE
+*"     VALUE(OBJKEY) LIKE  SWEINSTCOU-OBJKEY
+*"     VALUE(EVENT) LIKE  SWEINSTCOU-EVENT
+*"     VALUE(RECTYPE) LIKE  SWETYPECOU-RECTYPE
+*"  TABLES
+*"      EVENT_CONTAINER STRUCTURE  SWCONT
+*"----------------------------------------------------------------------
+
+  DATA: ls_event_raw TYPE zaif_event_raw.
+  ls_event_raw-objtype = objtype.
+  ls_event_raw-objkey = objkey.
+  ls_event_raw-event  = event.
+  ls_event_raw-rectype = rectype.
+
+  TRY.
+      CALL METHOD /aif/cl_enabler_xml=>transfer_to_aif
+        EXPORTING
+          is_any_structure = ls_event_raw.
+    CATCH cx_root .
+      MESSAGE e000(zaif_events).
+  ENDTRY.
+
+ENDFUNCTION.

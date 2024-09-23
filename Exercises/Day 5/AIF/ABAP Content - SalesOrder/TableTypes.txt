@@ -1,0 +1,3 @@
+zaif_em_sa_orderheader_tab: Table Type of ZAIF_EM_SA_ORDERHEADER
+ZAIF_EM_SA_CUSTOMER_TAB: Table Type of ZAIF_EM_SA_CUSTOMER
+ZAIF_EM_SA_ORDERITEM_TAB: Table Type of ZAIF_EM_SA_ORDERITEM
